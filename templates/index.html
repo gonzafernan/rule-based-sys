@@ -9,77 +9,53 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
 <body>
-  <!--
-    <nav class="navbar navbar-expand-lg bg-light">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">Sistemas Inteligentes</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Dropdown
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a class="dropdown-item" href="#">Something else here</a></li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link disabled">Disabled</a>
-              </li>
-            </ul>
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-          </div>
-        </div>
-      </nav>
-      -->
+
+  <nav class="navbar bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img src="{{url_for('static', filename='imgs/ueb-logo.png')}}" alt="" width="30" height="24" class="d-inline-block align-text-top">
+        Universidad El Bosque
+      </a>
+      <span class="navbar-text">
+        Sistemas Inteligentes
+      </span>
+  
+    </div>
+  </nav>
 
     <div class="container p-3">
         <h1>Decide the profession that best suit you.</h1>
         
         <div class="row">
             <!-- SABER 11 RESULTS SECTION -->
-            <div class="col-sm-6 p-3">
+            <div class="col-sm-4 p-3">
                 <h2>Saber 11 results.</h2>
-                <div class="input-group mb-3">
-                    <span class="input-group-text">Mathematics:</span>
-                    <input type="text" class="form-control" placeholder="Your grade." id="math-grade">
-                    <span class="input-group-text">/100</span>
+                <div class="p-3">
+                  <div class="input-group mb-3">
+                      <span class="input-group-text">Mathematics:</span>
+                      <input type="text" class="form-control" placeholder="Your grade." id="math-grade">
+                      <span class="input-group-text">/100</span>
+                  </div>
+                  <div class="input-group mb-3">
+                      <span class="input-group-text">Natural Sciences:</span>
+                      <input type="text" class="form-control" placeholder="Your grade." id="natural-grade">
+                      <span class="input-group-text">/100</span>
+                  </div>
+                  <div class="input-group mb-3">
+                      <span class="input-group-text">Social Sciences:</span>
+                      <input type="text" class="form-control" placeholder="Your grade." id="social-grade">
+                      <span class="input-group-text">/100</span>
+                  </div>
                 </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text">Natural Sciences:</span>
-                    <input type="text" class="form-control" placeholder="Your grade." id="natural-grade">
-                    <span class="input-group-text">/100</span>
+                <div class="p-3">
+                  <button type="button" class="btn btn-primary" id="btn-grades" onclick="uploadGrades_pressed()">Upload grades</button>
                 </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text">Social Sciences:</span>
-                    <input type="text" class="form-control" placeholder="Your grade." id="social-grade">
-                    <span class="input-group-text">/100</span>
-                </div>
-                <button type="button" class="btn btn-primary" id="btn-grades" onclick="uploadGrades_pressed()">Upload grades</button>
-                <div class="row p-3">
-                  <div class="col-sm-4">Mathematics: <span class="badge rounded-pill text-bg-warning">Warning</span></div>
-                  <div class="col-sm-4">Natural Sciences: <span class="badge rounded-pill text-bg-warning">Warning</span></div>
-                  <div class="col-sm-4">Social Sciences: <span class="badge rounded-pill text-bg-warning">Warning</span></div>
-                </div>
+                
+                <div class="p-3" id="div-cat"></div>
             </div>
 
             <!-- YOUR PREFERENCES SECTION -->
-            <div class="col-sm-6 p-3">
+            <div class="col-sm-4 p-3">
                 <h2>Your preferences.</h2>
                 <div class="p-3">
                 <div class="form-check">
@@ -108,6 +84,12 @@
                 </div>
                 </div>
                 <button type="button" class="btn btn-primary disabled" id="btn-preferences" onclick="uploadPreferences_pressed()">Upload preferences</button>
+            </div>
+            <div class="col-sm-4 p-3">
+              <h2>Follow the reasoning.</h2>
+              <div class="p-3">
+                <ul class="list-group" id="reason-list"></ul>
+              </div>
             </div>
         </div>
     </div>
