@@ -25,33 +25,40 @@ function uploadGrades_pressed() {
         naturalCat = text.natural;
         socialCat = text.social;
 
-        // Show categories on screen
-        let catDiv = document.getElementById("div-cat");
-
-        // Remove all alerts already on screen
-        while (catDiv.firstChild) {
-            catDiv.removeChild(catDiv.lastChild);
+        // Mathematics category alert
+        let mathDiv = document.getElementById("math-cat");
+        while (mathDiv.firstChild) {
+            mathDiv.removeChild(mathDiv.lastChild);
         }
-
-        // Create div elements for each subject
         let mathCatDiv = document.createElement("div");
-        let naturalCatDiv = document.createElement("div");
-        let socialCatDiv = document.createElement("div");
-
         mathCatDiv.classList.add('alert', getAlertClass('math', mathCat));
-        mathCatDiv.appendChild(document.createTextNode(`Mathematics category ${mathCat}.`));
+        mathCatDiv.appendChild(document.createTextNode(`Category ${mathCat}.`));
+        mathDiv.appendChild(mathCatDiv);
+
+        // Natural Sciences category alert
+        let naturalDiv = document.getElementById("natural-cat");
+        while (naturalDiv.firstChild) {
+            naturalDiv.removeChild(naturalDiv.lastChild);
+        }
+        let naturalCatDiv = document.createElement("div");
         naturalCatDiv.classList.add('alert', getAlertClass('natural', naturalCat));
-        naturalCatDiv.appendChild(document.createTextNode(`Natural Sciences category ${naturalCat}.`));
+        naturalCatDiv.appendChild(document.createTextNode(`Category ${naturalCat}.`));
+        naturalDiv.appendChild(naturalCatDiv);
+
+        // Social Sciences category alert
+        let socialDiv = document.getElementById("social-cat");
+        while (socialDiv.firstChild) {
+            socialDiv.removeChild(socialDiv.lastChild);
+        }
+        let socialCatDiv = document.createElement("div");
         socialCatDiv.classList.add('alert', getAlertClass('social', socialCat));
-        socialCatDiv.appendChild(document.createTextNode(`Social Sciences category ${socialCat}.`));
+        socialCatDiv.appendChild(document.createTextNode(`Category ${socialCat}.`));
+        socialDiv.appendChild(socialCatDiv);
 
-        // Add the alerts
-        catDiv.appendChild(mathCatDiv);
-        catDiv.appendChild(naturalCatDiv);
-        catDiv.appendChild(socialCatDiv);
-
+        /*
         console.log(`Mathematics category: ${mathCat}, Natural Sciences category: ${naturalCat}, 
             Social Sciences category: ${socialCat}`);
+        */
     })
 
     // Remove old inferences
@@ -65,6 +72,8 @@ function uploadGrades_pressed() {
 
     // Enable user preferences button
     document.getElementById("btn-preferences").classList.remove('disabled');
+    // Diable the grades button itself
+    document.getElementById('btn-grades').classList.add('disabled');
 }
 
 /**
@@ -86,6 +95,18 @@ function uploadPreferences_pressed() {
         console.log('GET response text:');
         console.log(text); 
     })
+
+    // Diable the preferences button itself
+    document.getElementById('btn-preferences').classList.add('disabled');
+}
+
+function resetBtn_pressed() {
+    // Enable grades button
+    document.getElementById("btn-grades").classList.remove('disabled');
+    // Disable preferences button
+    document.getElementById("btn-preferences").classList.add('disabled');
+
+    console.log("RESET PRESSED");
 }
 
 /**
