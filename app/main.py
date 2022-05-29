@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from knowledgeengine import CareerRecommend, Saber11
+from knowledgeengine import CareerRecommend, Saber11, Preference
 
 
 engine = CareerRecommend()
@@ -12,15 +12,24 @@ def home():
     return render_template("index.html")
 
 
+@app.route('/initialize', methods=['GET', 'POST'])
+def initialize():
+    if request.method == 'GET':     # GET request
+        # Restart engine
+        engine.reset()
+        engine.msg_buffer = []
+        engine.reset_choice()
+        return '0'
+    if request.method == 'POST':    # POST request
+        return '1'
+
+
 @app.route('/getgrades/', methods=['GET', 'POST'])
 def grades_get():
     math_grade = int(request.args.get('math'))
     natural_grade = int(request.args.get('natural'))
     social_grade = int(request.args.get('social'))
 
-    # Restart engine
-    engine.reset()
-    engine.msg_buffer = []
     # Add fact to the engine
     engine.declare(Saber11(math=math_grade, natural=natural_grade, social=social_grade))
     engine.run()
@@ -51,13 +60,30 @@ def pref_get():
     if request.args.get('health') == 'true':
         pref_health = True
 
+    # Add fact to the engine
+    engine.declare(Preference(engineering=pref_engine, science=pref_science, humanities=pref_human, health=pref_health))
+    engine.run()
+
     if request.method == 'POST':  # POST request
         print(request.get_text())  # parse as text
         return 'OK', 200
-
     else:  # GET request
         return 'Humanities: %s ; Engineering %s ; Science %s ; Health: %s' % \
                (str(pref_human), str(pref_engine), str(pref_science), str(pref_health))
+
+
+@app.route('/choice', methods=['GET', 'POST'])
+def get_choice():
+    message = {'humanities': engine.get_humanities_choice(),
+               'engineering': engine.get_engineering_choice(),
+               'science': engine.get_science_choice(),
+               'health': engine.get_health_choice()}
+
+    if request.method == 'GET':     # GET request
+        return jsonify(message)     # serialize and use JSON headers
+    if request.method == 'POST':    # POST request
+        print(request.get_json())   # parse as JSON
+        return 'Sucesss', 200
 
 
 @app.route('/reasonlist', methods=['GET', 'POST'])

@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rule Based System</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}"/>
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+
+<!-- INDEX BODY -->
+<body>
+<!-- SIMPLE NAVBAR -->
+<nav class="navbar bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img src="{{url_for('static', filename='imgs/ueb-logo.png')}}" alt="" width="30" height="24" class="d-inline-block align-text-top">
+      Universidad El Bosque
+    </a>
+    <span class="navbar-text">
+      Sistemas Inteligentes
+    </span>
+  </div>
+</nav>
+
+<!-- MAIN BODY -->
+<div class="container">
+
+  <!-- MAIN TITLE -->
+  <div class="pt-3">
+    <h1>Decide the profession that best suit you.</h1>
+    <p class="lead">
+      The project seeks to help you choose a professional career through an expert system that will make 
+      recommendations based on your results in Saber 11 and your personal preferences.
+    </p>
+  </div> <!-- MAIN TITLE -->
+    
+  <div class="row">
+    <!-- USER INPUT SECTION -->
+    <div class="col-sm-6">
+      <!-- SABER 11 SECTION -->
+      <div class="">
+        <h2>Saber 11 results.</h2>
+        <p class="lead">
+          According to your results you will be placed in different categories that seek to 
+          understand your strengths and weaknesses.
+        </p>
+        <!-- SABER 11 INPUT -->
+        <form class="row" id="saber11-input">
+          <div class="col-sm-8">
+            <div class="input-group mb-3">
+                <span class="input-group-text">Mathematics:</span>
+                <input type="text" class="form-control is-valid" placeholder="Your grade." id="math-grade">
+                <span class="input-group-text">/100</span>
+            </div>
+          </div>
+          <div class="col-sm-4" id="math-cat"></div>
+          <div class="col-sm-8">
+            <div class="input-group mb-3">
+                <span class="input-group-text">Natural Sciences:</span>
+                <input type="text" class="form-control" placeholder="Your grade." id="natural-grade">
+                <span class="input-group-text">/100</span>
+            </div>
+          </div>
+          <div class="col-sm-4" id="natural-cat"></div>
+          <div class="col-sm-8">
+            <div class="input-group mb-3">
+                <span class="input-group-text">Social Sciences:</span>
+                <input type="text" class="form-control" placeholder="Your grade." id="social-grade">
+                <span class="input-group-text">/100</span>
+            </div>
+          </div>
+          <div class="col-sm-4" id="social-cat"></div>
+        </form> <!-- SABER 11 INPUT -->
+        <div class="d-grid gap-2 d-md-block justify-content-md">
+          <button type="button" class="btn btn-primary me-md-2" id="btn-grades" onclick="uploadGrades_pressed()">Upload grades</button>
+        </div>
+      </div> <!-- SABER 11 SECTION -->
+
+      <!-- YOUR PREFERENCES SECTION -->
+      <div class="pt-3 lead">
+        <h2>Your preferences.</h2>
+        <p class="lead">
+          Of course your preferences are taken into account and help the system to choose the final recommendation.
+        </p>
+        <div class="">
+          <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="pref-humanities">
+              <label class="form-check-label" for="flexCheckDefault">
+                  Humanities
+              </label>
+          </div>
+          <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="pref-engineering">
+              <label class="form-check-label" for="flexCheckDefault">
+                  Engineering
+              </label>
+          </div>
+          <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="pref-sciences">
+              <label class="form-check-label" for="flexCheckDefault">
+                  Sciences
+              </label>
+          </div>
+          <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="pref-health">
+              <label class="form-check-label" for="flexCheckDefault">
+                  Health
+              </label>
+          </div>
+        </div>
+        <div class="d-grid gap-2 d-md-block justify-content-md pt-3">
+          <button type="button" class="btn btn-primary disabled" id="btn-preferences" onclick="uploadPreferences_pressed()">Upload preferences</button>
+        </div>
+      </div> <!-- YOUR PREFERENCES SECTION -->
+    </div> <!-- USER INPUT SECTION -->
+
+    <div class="col-sm-6">
+        <div>
+          <h2>You should study:</h2>
+          
+          <ul class="list-group list-group-horizontal pt-3">
+            <li class="list-group-item" id="choose-humanities">Humanities</li>
+            <li class="list-group-item" id="choose-engineering">Engineering</li>
+            <li class="list-group-item" id="choose-science">Sciences</li>
+            <li class="list-group-item" id="choose-health">Health</li>
+          </ul>
+
+          <div class="pt-3" id="conclusion"></div>
+
+          <div class="d-grid gap-2 d-md-block justify-content-md pt-3">
+            <button type="button" class="btn btn-primary" id="btn-reset" onclick="resetBtn_pressed()">Reset</button>
+          </div>
+        </div>
+        <div class="pt-3">
+          <h2>Follow the reasoning.</h2>
+          <div class="p-3">
+            <ul class="list-group" id="reason-list"></ul>
+          </div>
+        </div>
+    </div>
+  </div>
+</div> <!-- MAIN BODY -->
+
+<!-- MORE ABOUT SABER 11 SECTION -->
+<div class="pt-3 container">
+  <h2>More about Saber 11 evaluation test</h2>
+  <p class="lead">
+    The Saber 11 evaluation test of the Secondary Education level from the year 2014 is aligned with the evaluations of 
+    Basic Education to provide information to the educational community in the development of the basic competences that a student 
+    must develop during the passage through the school life. 
+    In addition to being a tool that provides feedback to the Educational System, the Saber 11 test has the following objectives, 
+    according to the provisions of Decree 869 of 2010:
+  </p>
+  <ul class="lead">
+    <li>Check the degree of development of the skills of students who are about to finish the eleventh grade of secondary education.</li>
+    <li>Provide elements to the student to carry out their self-assessment and the development of their life project.</li>
+    <li>
+      Provide educational institutions with pertinent information on the skills of applicants to enter higher education programs,
+      as well as those of those who are admitted, to serve as a basis for the design of academic remedial programs and dropout
+      prevention at this level .
+    </li>
+    <li>
+      Monitor the quality of education in the country's educational establishments, based on the basic competency standards and quality
+      benchmarks issued by the Ministry of National Education.
+    </li>
+    <li>Provide information for the establishment of value-added indicators, both for secondary education and higher education.</li>
+    <li>
+      Serve as a source of information for the construction of education quality indicators, as well as for the exercise of inspection
+      and surveillance of the educational public service.
+    </li>
+    <li>
+      Provide information to educational establishments that offer secondary education for the exercise of self-assessment and for them
+      to consolidate or reorient their pedagogical practices.
+    </li>
+    <li>
+      Offer information that serves as a strategic reference for the establishment of national, territorial and institutional educational policies.
+    </li>
+  </ul>
+  <p class="lead pt-3">For more information visit <a href="http://www.icfes.gov.co">www.icfes.gov.co</a></p>
+</div> <!-- MORE ABOUT SABER 11 SECTION -->
+
+<!-- SIMPLE FOOTER -->
+<div class="container pt-5">
+  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+    <div class="col-md-4 d-flex align-items-center">
+      <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
+        <img src="{{url_for('static', filename='imgs/ueb-logo.png')}}" alt="" width="30" height="24" class="bi">
+      </a>
+      <span class="text-muted">&copy; 2022 Gonzalo G. Fernández</span>
+    </div>
+
+    <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+      <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#twitter"/></svg></a></li>
+      <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#instagram"/></svg></a></li>
+      <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24"><use xlink:href="#facebook"/></svg></a></li>
+    </ul>
+  </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+<script src="{{url_for('static', filename='js/main.js')}}"></script>
+<script type="text/javascript">
+  window.onload = cleanProject;
+</script>
+
+</body>
+
+</html>
